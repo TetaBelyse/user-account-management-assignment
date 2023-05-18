@@ -43,6 +43,7 @@ router.post("/login", async (req, res) => {
         user: {
           ...user._doc,
           password: "",
+          emailVerificationToken: "",
           token,
         },
       });
