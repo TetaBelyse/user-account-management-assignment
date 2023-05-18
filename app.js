@@ -1,10 +1,16 @@
 require("dotenv").config();
 const express = require("express");
+const db = require("./db/database");
 const cors = require("cors");
 const app = express();
 
+// Body parser
 app.use(express.json({ limit: "50mb" }));
+//cors
 app.use(cors());
+
+// Connect to db
+db();
 
 //home route
 app.get("/", (req, res) => {
