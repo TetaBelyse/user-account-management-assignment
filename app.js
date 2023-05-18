@@ -17,6 +17,10 @@ app.get("/", (req, res) => {
   res.json({ message: "server is running" });
 });
 
+const usersRoute = require("./routes/users");
+
+app.use("/api/users/", usersRoute);
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {

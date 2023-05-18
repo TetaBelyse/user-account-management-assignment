@@ -4,10 +4,11 @@ const UserSchema = new mongoose.Schema(
   {
     fName: {
       type: String,
-      required: [true, "Provide the firstname"],
+      required: [true, "Provide your firstname"],
     },
     lName: {
       type: String,
+      required: [true, "Provide your lastname"],
     },
     email: {
       type: String,
