@@ -28,39 +28,28 @@ router.post("/login", async (req, res) => {
       // Create token
       const token = jwt.sign(
         {
-          user_id: user._id,
+          userId: user._id,
           email,
-          role: user.role,
-          phone: user.phone,
           createdAt: user.createdAt,
-          roleId: user.roleId,
-          companyName: user.companyName,
-          fullName: user.fullName,
         },
         process.env.TOKEN_KEY,
         {
-          expiresIn: "2h",
+          expiresIn: process.env.TOKEN_EXPIRATION,
         }
       );
 
-      // save user token
-      user.token = token;
-
       // user
       res.status(200).json({
-        phone: user.phone,
-        email: user.email,
-        fullName: user.fullName,
-        companyName: user.companyName,
-        role: user.role,
-        roleId: user.roleId,
-        token: user.token,
+        user: {
+          ...user._doc,
+          password: "",
+          token,
+        },
       });
     } else {
       res.status(400).send({ responseMessage: "Wrong username or password" });
     }
   } catch (err) {
-    console.log(err);
     res.status(400).send({
       responseMessage:
         "Something went wrong while signing into your account. Try again later",
