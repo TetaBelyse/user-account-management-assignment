@@ -78,17 +78,20 @@ const register = async (req, res) => {
     // Validate user input
     if (
       !(
-        fName &&
-        lName &&
-        email &&
-        gender &&
-        age &&
-        dob &&
-        nationality &&
-        maritalStatus &&
-        password &&
-        identificationNumber &&
-        identificationDocument
+        (
+          fName &&
+          lName &&
+          email &&
+          gender &&
+          age &&
+          dob &&
+          nationality &&
+          maritalStatus &&
+          password &&
+          identificationNumber
+        )
+        // &&
+        // identificationDocument
       )
     ) {
       res.status(400).send({
@@ -107,7 +110,9 @@ const register = async (req, res) => {
       if (!oldUser.isEmailVerified) {
         //resend emailVerificationToken token
         const transporter = nodemailer.createTransport({
-          service: "gmail",
+          host: "smtp.gmail.com",
+          port: 465,
+          secure: true,
           auth: {
             user: process.env.GMAIL_ACCOUNT,
             pass: process.env.GMAIL_PASSWORD,
@@ -154,7 +159,9 @@ const register = async (req, res) => {
 
     //send verification message
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
       auth: {
         user: process.env.GMAIL_ACCOUNT,
         pass: process.env.GMAIL_PASSWORD,
