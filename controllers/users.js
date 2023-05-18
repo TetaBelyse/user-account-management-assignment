@@ -9,6 +9,7 @@ const auth = require("../middleware/auth");
 const protectRoute = require("../middleware/protectRoutes");
 
 const Users = require("../models/users");
+const { returnEmailBody } = require("../helpers");
 
 const login = async (req, res) => {
   try {
@@ -78,20 +79,17 @@ const register = async (req, res) => {
     // Validate user input
     if (
       !(
-        (
-          fName &&
-          lName &&
-          email &&
-          gender &&
-          age &&
-          dob &&
-          nationality &&
-          maritalStatus &&
-          password &&
-          identificationNumber
-        )
-        // &&
-        // identificationDocument
+        fName &&
+        lName &&
+        email &&
+        gender &&
+        age &&
+        dob &&
+        nationality &&
+        maritalStatus &&
+        password &&
+        identificationNumber &&
+        identificationDocument
       )
     ) {
       res.status(400).send({
@@ -110,30 +108,20 @@ const register = async (req, res) => {
       if (!oldUser.isEmailVerified) {
         //resend emailVerificationToken token
         const transporter = nodemailer.createTransport({
-          host: "smtp.gmail.com",
-          port: 465,
+          host: process.env.SMTP_HOST,
+          port: process.env.SMTP_PORT,
           secure: true,
           auth: {
-            user: process.env.GMAIL_ACCOUNT,
-            pass: process.env.GMAIL_PASSWORD,
+            user: process.env.SMTP_EMAIL,
+            pass: process.env.SMTP_PASSWORD,
           },
         });
 
         const mailOptions = {
-          from: process.env.GMAIL_ACCOUNT,
+          from: process.env.SMTP_EMAIL,
           to: oldUser.email,
           subject: "Account verification",
-          html: `<b>Dear ${fName}</b>,<p>Thank you for creating an account with us! To get started, we need to verify your email address. Simply click on the link below to complete the verification process:</p>
-        <p><a href="${
-          process.env.BACKEND_URL +
-          "/api/users/email/verify/" +
-          emailVerificationToken
-        }">Click this link to verify your email</a></p>
-        <p>If you are unable to click on the link directly, you can copy and paste it into your web browser's address bar.</p>
-        <p>If you did not create an account with us, please ignore this email. If you have any questions or need assistance, our support team is here to help. Feel free to reach out to us at ${
-          process.env.GMAIL_ACCOUNT
-        }.</p>
-        <p>Thank you for choosing our platform!</p>`,
+          html: returnEmailBody(fName, emailVerificationToken),
         };
         await transporter.sendMail(mailOptions);
         await Users.updateOne(
@@ -159,33 +147,21 @@ const register = async (req, res) => {
 
     //send verification message
     const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 465,
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
       secure: true,
       auth: {
-        user: process.env.GMAIL_ACCOUNT,
-        pass: process.env.GMAIL_PASSWORD,
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
       },
     });
 
     const mailOptions = {
-      from: process.env.GMAIL_ACCOUNT,
+      from: process.env.SMTP_EMAIL,
       to: email,
       subject: "Account verification",
-      html: `<b>Dear ${fName}</b>,<p>Thank you for creating an account with us! To get started, we need to verify your email address. Simply click on the link below to complete the verification process:</p>
-      <p><a href="${
-        process.env.BACKEND_URL +
-        "/api/users/email/verify/" +
-        emailVerificationToken
-      }">Click this link to verify your email</a></p>
-      <p>If you are unable to click on the link directly, you can copy and paste it into your web browser's address bar.</p>
-      <p>If you did not create an account with us, please ignore this email. If you have any questions or need assistance, our support team is here to help. Feel free to reach out to us at ${
-        process.env.GMAIL_ACCOUNT
-      }.</p>
-      <p>Thank you for choosing our platform!</p>`,
+      html: returnEmailBody(fName, emailVerificationToken),
     };
-
-    const sendMail = await transporter.sendMail(mailOptions);
 
     // Create user in our database
     const user = await Users.create({
@@ -202,6 +178,8 @@ const register = async (req, res) => {
       identificationNumber,
       identificationDocument,
     });
+
+    await transporter.sendMail(mailOptions);
 
     // Create token
     const token = jwt.sign(
