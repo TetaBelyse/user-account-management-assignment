@@ -40,7 +40,7 @@ const login = async (req, res) => {
       );
 
       // user
-      res.status(200).json({
+      return res.status(200).json({
         user: {
           ...user._doc,
           password: "",
@@ -49,7 +49,9 @@ const login = async (req, res) => {
         },
       });
     } else {
-      res.status(400).send({ responseMessage: "Wrong username or password" });
+      return res
+        .status(400)
+        .send({ responseMessage: "Wrong username or password" });
     }
   } catch (err) {
     res.status(400).send({
@@ -92,9 +94,20 @@ const register = async (req, res) => {
         identificationDocument
       )
     ) {
-      res.status(400).send({
+      return res.status(400).send({
         status: "Error",
         responseMessage: "Provide correct information",
+      });
+    }
+    //validate pwd
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const isValid = regex.test(password);
+    if (!isValid) {
+      return res.status(400).send({
+        status: "Error",
+        responseMessage:
+          "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.",
       });
     }
 
