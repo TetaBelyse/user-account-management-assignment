@@ -54,7 +54,7 @@ const UserSchema = new mongoose.Schema(
       select: false,
     },
     emailVerificationToken: {
-      type: string,
+      type: String,
     },
     isEmailVerified: {
       type: Boolean,
@@ -71,6 +71,10 @@ const UserSchema = new mongoose.Schema(
       default: "",
     },
     identificationDocument: {
+      type: String,
+      default: "",
+    },
+    profilePhoto: {
       type: String,
       default: "",
     },

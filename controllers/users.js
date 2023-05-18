@@ -8,9 +8,9 @@ const nodemailer = require("nodemailer");
 const auth = require("../middleware/auth");
 const protectRoute = require("../middleware/protectRoutes");
 
-const Users = require("../model/users");
+const Users = require("../models/users");
 
-router.post("/login", async (req, res) => {
+const login = async (req, res) => {
   try {
     // Get user input
     const { email, password } = req.body;
@@ -56,9 +56,9 @@ router.post("/login", async (req, res) => {
         "Something went wrong while signing into your account. Try again later",
     });
   }
-});
+};
 
-router.post("/register", async (req, res) => {
+const register = async (req, res) => {
   try {
     // Get user input
     const {
@@ -71,6 +71,8 @@ router.post("/register", async (req, res) => {
       nationality,
       maritalStatus,
       password,
+      identificationNumber,
+      identificationDocument,
     } = req.body;
 
     // Validate user input
@@ -84,7 +86,9 @@ router.post("/register", async (req, res) => {
         dob &&
         nationality &&
         maritalStatus &&
-        password
+        password &&
+        identificationNumber &&
+        identificationDocument
       )
     ) {
       res.status(400).send({
@@ -158,8 +162,8 @@ router.post("/register", async (req, res) => {
     });
 
     const mailOptions = {
-      from: "info@ntuma.rw",
-      to: "fabulous45.fab@gmail.com",
+      from: process.env.GMAIL_ACCOUNT,
+      to: email,
       subject: "Account verification",
       html: `<b>Dear ${fName}</b>,<p>Thank you for creating an account with us! To get started, we need to verify your email address. Simply click on the link below to complete the verification process:</p>
       <p><a href="${
@@ -188,6 +192,8 @@ router.post("/register", async (req, res) => {
       nationality,
       maritalStatus,
       password,
+      identificationNumber,
+      identificationDocument,
     });
 
     // Create token
@@ -219,6 +225,9 @@ router.post("/register", async (req, res) => {
       responseMessage: err.message,
     });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  login,
+  register,
+};
