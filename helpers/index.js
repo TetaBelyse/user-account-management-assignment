@@ -19,6 +19,7 @@ const returnEmailBody = (fName, emailVerificationToken) => {
     "/api/users/email/verify/" +
     emailVerificationToken
   }">Click this link to verify your email</a></p>
+  <p><b>NB: You will be redirected to a login page upon a successfull email verification.</b></p>
   <p>If you are unable to click on the link directly, you can copy and paste it into your web browser's address bar.</p>
   <p>If you did not create an account with us, please ignore this email.</p>
   <p>Best Regards,<br>Teta Belyse</p>`;
