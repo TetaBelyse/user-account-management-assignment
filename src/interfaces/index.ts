@@ -41,3 +41,8 @@ export enum TOAST_MESSAGE_TYPES {
   INFO = "info",
   SUCCESS = "success",
 }
+
+export enum USER_ROLE_ENUM {
+  ADMIN = "admin",
+  USER = "user",
+}
