@@ -36,3 +36,17 @@
     }
   }
 }
+
+.register-success-main-container {
+  @include flex-center;
+  background-color: $gray;
+  min-height: 100vh;
+  .card {
+    max-width: 50% !important;
+    .card-body {
+      @include flex-center;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+}

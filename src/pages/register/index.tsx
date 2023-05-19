@@ -107,10 +107,9 @@ function Register() {
                 TOAST_MESSAGE_TYPES.SUCCESS,
                 res.data.responseMessage
               );
-              // navigate("/");
+              navigate("/register/success");
             })
             .catch((error) => {
-              // setState({ ...state, password: "", passwordConfirm: "" });
               setIsSubmitting(false);
               errorHandler(error);
             });

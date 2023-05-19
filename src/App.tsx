@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 const Home = lazy(() => import("./pages/home"));
 const Login = lazy(() => import("./pages/login"));
 const Register = lazy(() => import("./pages/register"));
+const RegisterSuccess = lazy(() => import("./pages/register-success"));
 
 function Routing() {
   return (
@@ -14,6 +15,7 @@ function Routing() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/register/success" element={<RegisterSuccess />} />
           {/* <Route path="*" element={<NoMatch />} /> */}
         </Routes>
       </BrowserRouter>
