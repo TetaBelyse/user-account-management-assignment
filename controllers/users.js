@@ -75,15 +75,14 @@ const verifyEmailAddress = async (req, res) => {
     if (!user) {
       return res.status(400).send({
         responseMessage:
-          "verification token expired, please log into your account or request new token by trying to register your account again using the same password.",
+          "verification token expired, please log into your account or request new token by trying to register your account again using the same email and password.",
       });
     }
-
-    await Users.updateOne(
-      { isEmailVerified: true, emailVerificationToken: "" },
+    const resps = await Users.updateOne(
       {
         _id: user._id,
-      }
+      },
+      { isEmailVerified: true, emailVerificationToken: "" }
     );
     return res.redirect(process.env.FRONTEND_URL + "/login");
   } catch (error) {
