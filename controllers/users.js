@@ -23,6 +23,12 @@ const login = async (req, res) => {
     const user = await Users.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
+      if (!user.isEmailVerified) {
+        res.status(400).send({
+          responseMessage:
+            "Your email address is not verified. Please check your inbox to veriry your email address.",
+        });
+      }
       // Create token
       const token = jwt.sign(
         {
