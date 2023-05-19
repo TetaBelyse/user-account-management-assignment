@@ -57,6 +57,7 @@ const login = async (req, res) => {
         .send({ responseMessage: "Wrong username or password" });
     }
   } catch (err) {
+    console.log({ err });
     res.status(400).send({
       responseMessage:
         "Something went wrong while signing into your account. Try again later",
@@ -207,6 +208,8 @@ const register = async (req, res) => {
       html: returnEmailBody(fName, emailVerificationToken),
     };
 
+    const hashedPwd = await bcrypt.hash(password, 10);
+
     // Create user in our database
     const user = await Users.create({
       fName,
@@ -218,7 +221,7 @@ const register = async (req, res) => {
       emailVerificationToken,
       nationality,
       maritalStatus,
-      password,
+      password: hashedPwd,
       identificationNumber,
       identificationDocument,
     });
