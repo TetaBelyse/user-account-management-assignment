@@ -44,6 +44,7 @@ function Login() {
         } = res.data;
         dispatch(
           setUser({
+            _id,
             fName,
             lName,
             email,
@@ -125,7 +126,7 @@ function Login() {
             </div>
             {isSubmitting ? (
               <button type="button" disabled={true}>
-                <CircularProgress />
+                <CircularProgress size={15} color="primary" />
                 &nbsp; Logging in...
               </button>
             ) : (
