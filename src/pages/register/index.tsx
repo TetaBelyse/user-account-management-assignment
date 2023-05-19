@@ -94,9 +94,12 @@ function Register() {
       setIsSubmitting(true);
 
       uploadImage()
-        .then((res) => {
+        .then((res: any) => {
           axios
-            .post(app.BACKEND_URL + "/users/register/", state)
+            .post(app.BACKEND_URL + "/users/register/", {
+              ...state,
+              identificationDocument: res.fileName,
+            })
             .then((res) => {
               setIsSubmitting(false);
               toastMessage(
@@ -106,7 +109,7 @@ function Register() {
               // navigate("/");
             })
             .catch((error) => {
-              setState({ ...state, password: "", passwordConfirm: "" });
+              // setState({ ...state, password: "", passwordConfirm: "" });
               setIsSubmitting(false);
               errorHandler(error);
             });

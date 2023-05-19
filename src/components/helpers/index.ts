@@ -10,8 +10,8 @@ export const handleAuthError = (error: any) => {
 };
 
 export const returnErroMessage = (error: any) => {
-  if (error?.response?.data?.msg) {
-    return error.response.data.msg;
+  if (error?.response?.data?.responseMessage) {
+    return error.response.data.responseMessage;
   } else if (error.message) {
     return error.message;
   } else {
@@ -32,8 +32,11 @@ export const toastMessage = (type: TOAST_MESSAGE_TYPES, message: string) => {
 };
 
 export const errorHandler = (error: any) => {
-  if (error?.response?.data?.msg) {
-    toastMessage(TOAST_MESSAGE_TYPES.ERROR, error.response.data.msg);
+  if (error?.response?.data?.responseMessage) {
+    toastMessage(
+      TOAST_MESSAGE_TYPES.ERROR,
+      error.response.data.responseMessage
+    );
   } else {
     toastMessage(TOAST_MESSAGE_TYPES.ERROR, error.message);
   }
