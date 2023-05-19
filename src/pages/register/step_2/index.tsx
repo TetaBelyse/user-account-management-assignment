@@ -22,7 +22,7 @@ function Step2({
       <div className="form-group">
         <label>ID/Pasport Number</label>
         <input
-          type="text"
+          type="number"
           placeholder="Enter ID/Passport Number"
           value={state.identificationNumber}
           className="form-control"
