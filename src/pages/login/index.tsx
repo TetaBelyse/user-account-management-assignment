@@ -41,7 +41,7 @@ function Login() {
           verificationMessage,
           profilePhoto,
           token,
-        } = res.data;
+        } = res.data.user;
         dispatch(
           setUser({
             _id,
@@ -64,6 +64,7 @@ function Login() {
           } as IUser)
         );
         toastMessage(TOAST_MESSAGE_TYPES.SUCCESS, "Logged in successful");
+
         navigate("/dashboard");
       })
       .catch((error) => {

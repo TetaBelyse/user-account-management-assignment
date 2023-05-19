@@ -7,7 +7,7 @@ import { IUser } from "../../../interfaces";
 interface IAdminProtectedRouteProps {
   children: ReactNode;
 }
-const AdminProtectedRoute = ({ children }: IAdminProtectedRouteProps) => {
+const AdminProtectedRoute = ({ children }: IAdminProtectedRouteProps): any => {
   const { token, role } = useSelector(
     (state: RootState) => state.user
   ) as IUser;
