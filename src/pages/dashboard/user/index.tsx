@@ -1,7 +1,12 @@
 import { Box, Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../reducers";
-import { AccountCircle, Verified } from "@mui/icons-material";
+import {
+  AccountCircle,
+  Pending,
+  Unpublished,
+  Verified,
+} from "@mui/icons-material";
 import { useState, useRef, useEffect } from "react";
 import FullPageLoader from "../../../components/full-page-loader";
 import axios from "axios";
@@ -11,7 +16,10 @@ import {
   setHeaders,
   toastMessage,
 } from "../../../components/helpers";
-import { TOAST_MESSAGE_TYPES } from "../../../interfaces";
+import {
+  TOAST_MESSAGE_TYPES,
+  VERIFICATION_STATUS_ENUM,
+} from "../../../interfaces";
 import { fetUserStatus, setUser } from "../../../actions/user";
 
 function User() {
@@ -79,8 +87,25 @@ function User() {
             <CardHeader title="Account Verification" />
             <CardContent>
               <div className="flexCenter" style={{ flexDirection: "column" }}>
-                <Verified color="success" />
+                {userReducer.verificationStatus ===
+                  VERIFICATION_STATUS_ENUM.VERIFIED && (
+                  <Verified color="success" style={{ fontSize: 100 }} />
+                )}
+                {userReducer.verificationStatus ===
+                  VERIFICATION_STATUS_ENUM.PENDING_VERIFICATION && (
+                  <Pending color="info" style={{ fontSize: 100 }} />
+                )}
+                {userReducer.verificationStatus ===
+                  VERIFICATION_STATUS_ENUM.UNVERIFIED && (
+                  <Unpublished color="error" style={{ fontSize: 100 }} />
+                )}
                 <p>{userReducer.verificationStatus}</p>
+                {userReducer.verificationStatus ===
+                  VERIFICATION_STATUS_ENUM.UNVERIFIED && (
+                  <p className="text-danger">
+                    {userReducer.verificationStatus}
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>
