@@ -21,7 +21,6 @@ const login = async (req, res) => {
     }
     // Validate if user exist in our database
     const user = await Users.findOne({ email });
-
     if (user && (await bcrypt.compare(password, user.password))) {
       if (!user.isEmailVerified) {
         res.status(400).send({

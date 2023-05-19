@@ -50,7 +50,7 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Provide password"],
       minlength: 8,
-      select: false,
+      // select: false,
     },
     emailVerificationToken: {
       type: String,
