@@ -5,11 +5,8 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 
-const auth = require("../middleware/auth");
-const protectRoute = require("../middleware/protectRoutes");
-
-const Users = require("../models/users");
 const { returnEmailBody } = require("../helpers");
+const Users = require("../models/users");
 
 const login = async (req, res) => {
   try {
