@@ -41,7 +41,7 @@ function Sidebar() {
             <ListItemText primary="Dashboard" />
           </ListItemButton>
         </ListItem>
-        {role === USER_ROLE_ENUM.USER && (
+        {/* {role === USER_ROLE_ENUM.USER && (
           <ListItem disablePadding onClick={() => navigate("/dashboard")}>
             <ListItemButton>
               <ListItemIcon>
@@ -50,7 +50,7 @@ function Sidebar() {
               <ListItemText primary="Change Password" />
             </ListItemButton>
           </ListItem>
-        )}
+        )} */}
       </List>
       <Divider />
       <List>
