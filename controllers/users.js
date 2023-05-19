@@ -10,22 +10,24 @@ const {
   verificationStatusEnum,
   returnEmailVerifiedBody,
   returnEmailNotVerifiedBody,
+  getRandomNumber,
+  returnOTPEmailBody,
 } = require("../helpers");
 const Users = require("../models/users");
 
 const login = async (req, res) => {
   try {
     // Get user input
-    const { email, password } = req.body;
+    const { email, password, otp } = req.body;
 
     // Validate user input
-    if (!(email && password)) {
+    if (!(email && password && otp)) {
       return res
         .status(400)
-        .send({ responseMessage: "Please provide your email and password" });
+        .send({ responseMessage: "Please provide correct information" });
     }
     // Validate if user exist in our database
-    const user = await Users.findOne({ email });
+    const user = await Users.findOne({ email, otp });
     if (user && (await bcrypt.compare(password, user.password))) {
       if (!user.isEmailVerified) {
         return res.status(400).send({
@@ -47,14 +49,87 @@ const login = async (req, res) => {
         }
       );
 
+      await Users.updateOne(
+        { otp: "" },
+        {
+          _id: user._id,
+        }
+      );
+
       // user
       return res.status(200).json({
         user: {
           ...user._doc,
           password: "",
+          otp: "",
           emailVerificationToken: "",
           token,
         },
+      });
+    } else {
+      return res.status(400).send({
+        responseMessage: "Invalid OTP, please check your email address",
+      });
+    }
+  } catch (err) {
+    console.log({ err });
+    res.status(400).send({
+      responseMessage:
+        "Something went wrong while signing into your account. Try again later",
+    });
+  }
+};
+
+const initiateLogin = async (req, res) => {
+  try {
+    // Get user input
+    const { email, password } = req.body;
+
+    // Validate user input
+    if (!(email && password)) {
+      return res
+        .status(400)
+        .send({ responseMessage: "Please provide your email and password" });
+    }
+    // Validate if user exist in our database
+    const user = await Users.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      if (!user.isEmailVerified) {
+        return res.status(400).send({
+          responseMessage:
+            "Your email address is not verified. Please check your inbox to veriry your email address.",
+        });
+      }
+
+      const otp = getRandomNumber();
+      await Users.updateOne(
+        { otp },
+        {
+          _id: user._id,
+        }
+      );
+
+      //send email
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: true,
+        auth: {
+          user: process.env.SMTP_EMAIL,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.SMTP_EMAIL,
+        to: user.email,
+        subject: "User account login OTP",
+        html: returnOTPEmailBody(user.fName, otp),
+      };
+      await transporter.sendMail(mailOptions);
+
+      return res.status(200).json({
+        responseMessage: "OTP has been sent to " + user.email,
       });
     } else {
       return res
@@ -66,6 +141,70 @@ const login = async (req, res) => {
     res.status(400).send({
       responseMessage:
         "Something went wrong while signing into your account. Try again later",
+    });
+  }
+};
+
+const resendOTP = async (req, res) => {
+  try {
+    // Get user input
+    const { email, password } = req.body;
+
+    // Validate user input
+    if (!(email && password)) {
+      return res
+        .status(400)
+        .send({ responseMessage: "Please provide your email and password" });
+    }
+    // Validate if user exist in our database
+    const user = await Users.findOne({ email });
+    if (user && (await bcrypt.compare(password, user.password))) {
+      if (!user.isEmailVerified) {
+        return res.status(400).send({
+          responseMessage:
+            "Your email address is not verified. Please check your inbox to veriry your email address.",
+        });
+      }
+      const otp = getRandomNumber();
+      await Users.updateOne(
+        { otp },
+        {
+          _id: user._id,
+        }
+      );
+
+      //send email
+      const transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: process.env.SMTP_PORT,
+        secure: true,
+        auth: {
+          user: process.env.SMTP_EMAIL,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.SMTP_EMAIL,
+        to: user.email,
+        subject: "User account login OTP",
+        html: returnOTPEmailBody(user.fName, otp),
+      };
+      await transporter.sendMail(mailOptions);
+
+      return res.status(200).json({
+        responseMessage: "OTP has been sent to " + user.email,
+      });
+    } else {
+      return res
+        .status(400)
+        .send({ responseMessage: "Wrong username or password" });
+    }
+  } catch (err) {
+    console.log({ err });
+    res.status(400).send({
+      responseMessage:
+        "Something went wrong while sending an OTP. Try again later",
     });
   }
 };
@@ -448,4 +587,6 @@ module.exports = {
   adminGetAll,
   approveUser,
   disapproveUser,
+  resendOTP,
+  initiateLogin,
 };

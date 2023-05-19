@@ -9,6 +9,8 @@ const {
   adminGetAll,
   disapproveUser,
   approveUser,
+  resendOTP,
+  initiateLogin,
 } = require("../controllers/users");
 // const { uploadImage } = require("../controllers/upload");
 
@@ -19,6 +21,8 @@ router.get("/all", auth, protectRoute(["admin"]), adminGetAll);
 router.put("/approve", auth, protectRoute(["admin"]), approveUser);
 router.put("/disapprove", auth, protectRoute(["admin"]), disapproveUser);
 router.post("/login/", login);
+router.post("/login/init/", initiateLogin);
+router.post("/resendotp", resendOTP);
 router.post("/register/", register);
 router.get("/email/verify/:token", verifyEmailAddress);
 router.put("/profile/", auth, updateUserProfileImage);

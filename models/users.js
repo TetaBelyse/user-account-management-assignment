@@ -80,6 +80,9 @@ const UserSchema = new mongoose.Schema(
     verificationMessage: {
       type: String,
     },
+    otp: {
+      type: String,
+    },
   },
   {
     timestamps: true,

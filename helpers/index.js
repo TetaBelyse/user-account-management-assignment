@@ -38,10 +38,16 @@ const returnEmailNotVerifiedBody = (fName, reason) => {
   <p>Best Regards,<br>Teta Belyse</p>`;
 };
 
+const returnOTPEmailBody = (fName, code) => {
+  return `<b>Dear ${fName}</b>,<p>Your OTP code to log into your accout is: <b>${reason}</b>.</p>
+  <p>Best Regards,<br>Teta Belyse</p>`;
+};
+
 module.exports = {
   verificationStatusEnum,
   getRandomNumber,
   returnEmailBody,
   returnEmailVerifiedBody,
   returnEmailNotVerifiedBody,
+  returnOTPEmailBody,
 };
