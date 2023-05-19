@@ -2,8 +2,10 @@ import React from "react";
 import Header from "./header";
 import "../../../scss/home.scss";
 import { Col, Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function Welcome() {
+  const navigate = useNavigate();
   return (
     <div
       className="welcome"
@@ -24,7 +26,9 @@ function Welcome() {
                   consequuntur voluptatum laborum
                 </p>
                 <div className="buttons-container mt-5">
-                  <button>Get Started</button>
+                  <button onClick={() => navigate("/login")}>
+                    Get Started
+                  </button>
                   <button>Learn More</button>
                 </div>
               </Col>
