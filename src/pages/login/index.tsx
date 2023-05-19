@@ -64,11 +64,7 @@ function Login() {
           } as IUser)
         );
         toastMessage(TOAST_MESSAGE_TYPES.SUCCESS, "Logged in successful");
-        if (role === USER_ROLE_ENUM.ADMIN) {
-          navigate("/dashboard");
-        } else {
-          navigate("/");
-        }
+        navigate("/dashboard");
       })
       .catch((error) => {
         setIsSubmitting(false);
