@@ -168,6 +168,7 @@ const approveUser = async (req, res) => {
 
     return res.status(200).send({
       responseMessage: "User verified successfull.",
+      user,
     });
   } catch (error) {
     return res.status(400).send({
@@ -225,6 +226,7 @@ const disapproveUser = async (req, res) => {
 
     return res.status(200).send({
       responseMessage: "User unverified successfull.",
+      user,
     });
   } catch (error) {
     return res.status(400).send({
