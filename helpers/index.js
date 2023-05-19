@@ -39,7 +39,7 @@ const returnEmailNotVerifiedBody = (fName, reason) => {
 };
 
 const returnOTPEmailBody = (fName, code) => {
-  return `<b>Dear ${fName}</b>,<p>Your OTP code to log into your accout is: <b>${reason}</b>.</p>
+  return `<b>Dear ${fName}</b>,<p>Your OTP code to log into your accout is: <b>${code}</b>.</p>
   <p>Best Regards,<br>Teta Belyse</p>`;
 };
 

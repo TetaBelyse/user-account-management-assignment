@@ -50,10 +50,10 @@ const login = async (req, res) => {
       );
 
       await Users.updateOne(
-        { otp: "" },
         {
           _id: user._id,
-        }
+        },
+        { otp: "" }
       );
 
       // user
@@ -103,10 +103,10 @@ const initiateLogin = async (req, res) => {
 
       const otp = getRandomNumber();
       await Users.updateOne(
-        { otp },
         {
           _id: user._id,
-        }
+        },
+        { otp }
       );
 
       //send email
@@ -167,10 +167,10 @@ const resendOTP = async (req, res) => {
       }
       const otp = getRandomNumber();
       await Users.updateOne(
-        { otp },
         {
           _id: user._id,
-        }
+        },
+        { otp }
       );
 
       //send email
