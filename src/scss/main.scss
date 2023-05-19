@@ -1,4 +1,9 @@
+@import "partials";
+@import "colors";
 .common-btn {
-  background-color: #1d4511 !important;
-  color: #fff !important;
+  background-color: $DARK_GREEN !important;
+  color: $white !important;
+}
+.flexCenter {
+  @include flex-center;
 }

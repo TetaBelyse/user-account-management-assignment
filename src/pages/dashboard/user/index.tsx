@@ -1,8 +1,8 @@
 import { Box, Card, CardContent, CardHeader, Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../reducers";
-import { AccountCircle, ImageRounded } from "@mui/icons-material";
-import { useState, useRef } from "react";
+import { AccountCircle, Verified } from "@mui/icons-material";
+import { useState, useRef, useEffect } from "react";
 import FullPageLoader from "../../../components/full-page-loader";
 import axios from "axios";
 import { app } from "../../../components/constants";
@@ -12,7 +12,7 @@ import {
   toastMessage,
 } from "../../../components/helpers";
 import { TOAST_MESSAGE_TYPES } from "../../../interfaces";
-import { setUser } from "../../../actions/user";
+import { fetUserStatus, setUser } from "../../../actions/user";
 
 function User() {
   const dispatch = useDispatch();
@@ -67,13 +67,22 @@ function User() {
       });
   };
 
+  useEffect(() => {
+    dispatch(fetUserStatus());
+  }, []);
+
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item md={6}>
           <Card>
             <CardHeader title="Account Verification" />
-            <CardContent>testing</CardContent>
+            <CardContent>
+              <div className="flexCenter" style={{ flexDirection: "column" }}>
+                <Verified color="success" />
+                <p>{userReducer.verificationStatus}</p>
+              </div>
+            </CardContent>
           </Card>
         </Grid>
         <Grid item md={6}>
@@ -123,27 +132,34 @@ function User() {
                   )}
                 </Grid>
                 <Grid item sm={6} xs={6} md={6} lg={6} xl={6}>
-                  {userReducer.profilePhoto.trim() === "" ? (
-                    <AccountCircle style={{ fontSize: 100 }} />
-                  ) : (
-                    <img
-                      src={app.FILE_URL + userReducer.profilePhoto}
-                      style={{ width: 100, height: 100, borderRadius: 100 }}
-                    />
-                  )}
-                  <br />
-                  <input
-                    type="file"
-                    onChange={(t: any) => handleFileUpload(t.target.files[0])}
-                    className="d-none"
-                    ref={imageRef}
-                  />
-                  <button
-                    className="btn common-btn mt-2"
-                    onClick={() => imageRef.current && imageRef.current.click()}
+                  <div
+                    className="flexCenter"
+                    style={{ flexDirection: "column" }}
                   >
-                    Update Photo
-                  </button>
+                    {userReducer.profilePhoto.trim() === "" ? (
+                      <AccountCircle style={{ fontSize: 100 }} />
+                    ) : (
+                      <img
+                        src={app.FILE_URL + userReducer.profilePhoto}
+                        style={{ width: 100, height: 100, borderRadius: 100 }}
+                      />
+                    )}
+                    <br />
+                    <input
+                      type="file"
+                      onChange={(t: any) => handleFileUpload(t.target.files[0])}
+                      className="d-none"
+                      ref={imageRef}
+                    />
+                    <button
+                      className="btn common-btn mt-2"
+                      onClick={() =>
+                        imageRef.current && imageRef.current.click()
+                      }
+                    >
+                      Update Photo
+                    </button>
+                  </div>
                 </Grid>
               </Grid>
             </CardContent>
