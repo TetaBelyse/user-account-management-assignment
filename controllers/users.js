@@ -92,6 +92,30 @@ const verifyEmailAddress = async (req, res) => {
   }
 };
 
+const updateUserProfileImage = async (req, res) => {
+  try {
+    const { image } = req.body;
+    if (!image) {
+      return res.status(400).send({
+        responseMessage: "Please provide image.",
+      });
+    }
+    await Users.updateOne(
+      {
+        _id: req.user.userId,
+      },
+      { profilePhoto: image }
+    );
+    return res.status(200).send({
+      responseMessage: "Your profile image was updated successfull.",
+    });
+  } catch (error) {
+    return res.status(400).send({
+      responseMessage: error.message,
+    });
+  }
+};
+
 const register = async (req, res) => {
   try {
     // Get user input
@@ -244,4 +268,5 @@ module.exports = {
   login,
   register,
   verifyEmailAddress,
+  updateUserProfileImage,
 };
