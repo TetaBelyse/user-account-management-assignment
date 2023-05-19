@@ -61,6 +61,35 @@ const login = async (req, res) => {
   }
 };
 
+const verifyEmailAddress = async (req, res) => {
+  try {
+    const token = req.params["token"];
+    const user = await Users.findOne({
+      emailVerificationToken: token,
+      isEmailVerified: false,
+    });
+
+    if (!user) {
+      return res.status(400).send({
+        responseMessage:
+          "verification token expired, please log into your account or request new token by trying to register your account again using the same password.",
+      });
+    }
+
+    await Users.updateOne(
+      { isEmailVerified: true, emailVerificationToken: "" },
+      {
+        _id: user._id,
+      }
+    );
+    return res.redirect(process.env.FRONTEND_URL + "/login");
+  } catch (error) {
+    return res.status(400).send({
+      responseMessage: error.message,
+    });
+  }
+};
+
 const register = async (req, res) => {
   try {
     // Get user input
@@ -194,29 +223,11 @@ const register = async (req, res) => {
 
     await transporter.sendMail(mailOptions);
 
-    // Create token
-    const token = jwt.sign(
-      {
-        userId: user._id,
-        email,
-        createdAt: user.createdAt,
-      },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: process.env.TOKEN_EXPIRATION,
-      }
-    );
-
     // return new user
     return res.status(201).json({
       status: "success",
       responseMessage:
         "User Registered successfull!. Please check your inbox for email verification instructions",
-      user: {
-        ...user._doc,
-        password: "",
-        token,
-      },
     });
   } catch (err) {
     return res.status(400).send({
@@ -228,4 +239,5 @@ const register = async (req, res) => {
 module.exports = {
   login,
   register,
+  verifyEmailAddress,
 };

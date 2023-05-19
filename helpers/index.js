@@ -20,8 +20,8 @@ const returnEmailBody = (fName, emailVerificationToken) => {
     emailVerificationToken
   }">Click this link to verify your email</a></p>
   <p>If you are unable to click on the link directly, you can copy and paste it into your web browser's address bar.</p>
-  <p>If you did not create an account with us, please ignore this email. If you have any questions or need assistance, our support team is here to help.</p>
-  <p>Thank you for choosing our platform!</p>`;
+  <p>If you did not create an account with us, please ignore this email.</p>
+  <p>Best Regards,<br>Teta Belyse</p>`;
 };
 
 module.exports = {
