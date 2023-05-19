@@ -41,6 +41,7 @@ function Login() {
       .post(app.BACKEND_URL + "/users/resendotp/", state)
       .then((res) => {
         setIsSubmitting(false);
+        setState({ ...state, otp: "" });
         toastMessage(TOAST_MESSAGE_TYPES.SUCCESS, res.data.responseMessage);
       })
       .catch((error) => {
