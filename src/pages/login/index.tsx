@@ -7,8 +7,8 @@ import { app, appColors } from "../../components/constants";
 import { IUser, TOAST_MESSAGE_TYPES, USER_ROLE_ENUM } from "../../interfaces";
 import { errorHandler, toastMessage } from "../../components/helpers";
 import { setUser } from "../../actions/user";
-import { CircularProgress } from "@mui/material";
 import { Home } from "@mui/icons-material";
+import FullPageLoader from "../../components/full-page-loader";
 
 const initialState = { emailOrPhone: "", password: "" };
 function Login() {
@@ -126,8 +126,7 @@ function Login() {
             </div>
             {isSubmitting ? (
               <button type="button" disabled={true}>
-                <CircularProgress size={15} color="primary" />
-                &nbsp; Logging in...
+                Logging in...
               </button>
             ) : (
               <button type="submit">Login</button>
@@ -148,6 +147,7 @@ function Login() {
           </div>
         </div>
       </div>
+      <FullPageLoader open={isSubmitting} />
     </div>
   );
 }
