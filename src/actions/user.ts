@@ -20,7 +20,7 @@ export const resetUser = () => ({ type: RESET_USER });
 export const fetUserStatus = (): any => (dispatch: any, getState: any) => {
   const { user } = getState();
   axios
-    .get(app.BACKEND_URL + "/users/status", setHeaders(user.token))
+    .get(app.BACKEND_URL + "/users/status/", setHeaders(user.token))
     .then((res) => {
       const {
         _id,

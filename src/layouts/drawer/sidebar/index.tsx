@@ -23,6 +23,7 @@ function Sidebar() {
   const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
   const handleLogout = () => {
+    setShowAlert(false);
     navigate("/logout");
   };
   return (
@@ -41,7 +42,7 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
         {role === USER_ROLE_ENUM.USER && (
-          <ListItem disablePadding>
+          <ListItem disablePadding onClick={() => navigate("/dashboard")}>
             <ListItemButton>
               <ListItemIcon>
                 <Key />
