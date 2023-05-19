@@ -1,0 +1,112 @@
+@import "partials";
+@import "colors";
+
+.login-main-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  .login-background-container {
+    @include flex-space;
+    height: 100%;
+    width: 100%;
+    div {
+      width: 50%;
+      height: 100%;
+      &:first-child {
+        // background-color: $gray;
+        background-color: $DARK_GREEN;
+      }
+      &:last-child {
+        background-color: $white;
+      }
+    }
+  }
+
+  .form-main-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    @include flex-center-column;
+
+    img {
+      margin: 1rem 0px;
+    }
+
+    .form-container {
+      padding: 3rem;
+      background: $white 0% 0% no-repeat padding-box;
+      box-shadow: 0px 3px 24px #0000000f;
+      border-radius: 8px;
+      width: 30%;
+
+      h2 {
+        color: $DARK_GREEN;
+        font-size: 16px;
+      }
+      p {
+        font-size: 12px;
+        color: $textGray;
+      }
+
+      form {
+        .error {
+          font-weight: 400;
+          color: #ff0000;
+          font-size: 12px;
+        }
+        input {
+          background-color: $darkWhite;
+        }
+        label {
+          margin: 10px 0px;
+          font-weight: 600;
+          font-size: 14px;
+        }
+        button {
+          margin: 1rem 0px;
+          width: 100%;
+          background-color: $DARK_GREEN;
+          color: $white;
+          border: none;
+          outline: none;
+          padding: 5px;
+          border-radius: 8px;
+        }
+      }
+      .forget-password-container {
+        text-align: center;
+        a {
+          color: $textGray;
+          font-size: 12px;
+          text-transform: capitalize;
+        }
+      }
+
+      hr {
+        margin: 2rem 0px;
+      }
+
+      .form-footer2 {
+        font-size: 12px;
+        text-align: center;
+
+        span {
+          color: $textGray;
+        }
+        a {
+          color: $DARK_GREEN;
+          text-decoration: underline;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .login-main-container .form-main-container .form-container {
+    width: 90%;
+  }
+}
