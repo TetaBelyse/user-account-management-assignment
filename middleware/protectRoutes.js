@@ -5,7 +5,7 @@ const protectRoutes = (allowedRoles) => {
         return next();
       } else {
         return res.status(400).send({
-          msg: "You dont have access to this information.",
+          responseMessage: "You dont have access to this information.",
           error: true,
         });
       }

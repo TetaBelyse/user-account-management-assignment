@@ -23,7 +23,7 @@ const login = async (req, res) => {
     const user = await Users.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
       if (!user.isEmailVerified) {
-        res.status(400).send({
+        return res.status(400).send({
           responseMessage:
             "Your email address is not verified. Please check your inbox to veriry your email address.",
         });
@@ -32,6 +32,7 @@ const login = async (req, res) => {
       const token = jwt.sign(
         {
           userId: user._id,
+          role: user.role,
           email,
           createdAt: user.createdAt,
         },
@@ -133,6 +134,7 @@ const getUserStatus = async (req, res) => {
       {
         userId: user._id,
         email: user.email,
+        role: user.role,
         createdAt: user.createdAt,
       },
       process.env.TOKEN_KEY,
@@ -147,6 +149,22 @@ const getUserStatus = async (req, res) => {
         emailVerificationToken: "",
         token,
       },
+    });
+  } catch (error) {
+    return res.status(400).send({
+      responseMessage: error.message,
+    });
+  }
+};
+
+const adminGetAll = async (req, res) => {
+  try {
+    const users = await Users.find({
+      role: "user",
+    });
+
+    return res.status(200).json({
+      users,
     });
   } catch (error) {
     return res.status(400).send({
@@ -309,4 +327,5 @@ module.exports = {
   verifyEmailAddress,
   updateUserProfileImage,
   getUserStatus,
+  adminGetAll,
 };
