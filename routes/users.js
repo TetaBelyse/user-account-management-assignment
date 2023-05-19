@@ -5,6 +5,7 @@ const {
   register,
   verifyEmailAddress,
   updateUserProfileImage,
+  getUserStatus,
 } = require("../controllers/users");
 // const { uploadImage } = require("../controllers/upload");
 
@@ -15,5 +16,6 @@ router.post("/login/", login);
 router.post("/register/", register);
 router.get("/email/verify/:token", verifyEmailAddress);
 router.put("/profile", auth, updateUserProfileImage);
+router.get("/status", auth, getUserStatus);
 
 module.exports = router;

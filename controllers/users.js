@@ -116,6 +116,45 @@ const updateUserProfileImage = async (req, res) => {
   }
 };
 
+const getUserStatus = async (req, res) => {
+  try {
+    const user = await Users.findOne({
+      _id: req.user.userId,
+    });
+
+    if (!user) {
+      return res.status(401).send({
+        responseMessage: "Could not find user.",
+      });
+    }
+
+    // Create token
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+        createdAt: user.createdAt,
+      },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: process.env.TOKEN_EXPIRATION,
+      }
+    );
+    return res.status(200).json({
+      user: {
+        ...user._doc,
+        password: "",
+        emailVerificationToken: "",
+        token,
+      },
+    });
+  } catch (error) {
+    return res.status(400).send({
+      responseMessage: error.message,
+    });
+  }
+};
+
 const register = async (req, res) => {
   try {
     // Get user input
@@ -269,4 +308,5 @@ module.exports = {
   register,
   verifyEmailAddress,
   updateUserProfileImage,
+  getUserStatus,
 };
