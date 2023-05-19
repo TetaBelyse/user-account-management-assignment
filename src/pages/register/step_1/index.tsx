@@ -23,31 +23,31 @@ function Step1({
       <div className="row">
         <div className="col-6">
           <div className="form-group ">
-            <label>Names</label>
+            <label>FirstName</label>
             <input
               className="form-control"
               placeholder="Enter your full name"
               disabled={isSubmitting}
               type="text"
-              name="names"
+              name="fName"
               value={state.fName}
               required
-              onChange={(e) => changeHandler(e)}
+              onChange={changeHandler}
             />
           </div>
         </div>
         <div className="col-6">
           <div className="form-group">
-            <label>Names</label>
+            <label>LastName</label>
             <input
               className="form-control"
               placeholder="Enter your full name"
               disabled={isSubmitting}
               type="text"
-              name="names"
-              value={state.fName}
+              name="lName"
+              value={state.lName}
               required
-              onChange={(e) => changeHandler(e)}
+              onChange={changeHandler}
             />
           </div>
         </div>
@@ -61,7 +61,7 @@ function Step1({
           type="email"
           name="email"
           value={state.email}
-          onChange={(e) => changeHandler(e)}
+          onChange={changeHandler}
           required
         />
       </div>
@@ -73,7 +73,7 @@ function Step1({
               required
               className="form-select"
               disabled={isSubmitting}
-              onChange={(e) => changeHandler(e)}
+              onChange={changeHandler}
               value={state.gender}
               name="gender"
             >
@@ -90,9 +90,9 @@ function Step1({
               required
               className="form-select"
               disabled={isSubmitting}
-              onChange={(e) => changeHandler(e)}
-              value={state.gender}
-              name="gender"
+              onChange={changeHandler}
+              value={state.maritalStatus}
+              name="maritalStatus"
             >
               <option value="">choose gender</option>
               <option value={MARITAL_STATUS_ENUM.SINGLE}>
@@ -118,11 +118,11 @@ function Step1({
             <input
               type="number"
               required
-              className="form-select"
+              className="form-control"
               disabled={isSubmitting}
-              onChange={(e) => changeHandler(e)}
-              value={state.gender}
-              name="gender"
+              onChange={changeHandler}
+              value={state.age}
+              name="age"
             />
           </div>
         </div>
@@ -130,11 +130,11 @@ function Step1({
           <div className="form-group">
             <label>Date Of Birth</label>
             <input
-              type="text"
+              type="date"
               required
-              className="form-select"
+              className="form-control"
               disabled={isSubmitting}
-              onChange={(e) => changeHandler(e)}
+              onChange={changeHandler}
               value={state.dob}
               name="dob"
             />
@@ -148,7 +148,7 @@ function Step1({
           className="form-select"
           required
           value={state.nationality}
-          onChange={(e) => changeHandler(e)}
+          onChange={changeHandler}
           name="nationality"
         >
           <option value="">Choose Nationality</option>

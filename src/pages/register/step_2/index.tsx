@@ -4,6 +4,7 @@ import { CircularProgress } from "@mui/material";
 
 interface IStepProps {
   state: IRegisterState;
+  setState: any;
   changeHandler: any;
   setActiveStep: any;
   isSubmitting: boolean;
@@ -11,6 +12,7 @@ interface IStepProps {
 
 function Step2({
   state,
+  setState,
   changeHandler,
   setActiveStep,
   isSubmitting,
@@ -30,7 +32,16 @@ function Step2({
       </div>
       <div className="form-group">
         <label>ID/Pasport Document</label>
-        <input type="file" className="form-control" />
+        <input
+          type="file"
+          onChange={(t: any) =>
+            setState({
+              ...state,
+              identificationDocument: t.target.files[0],
+            })
+          }
+          className="form-control"
+        />
       </div>
 
       <div className="form-group">

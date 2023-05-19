@@ -59,29 +59,61 @@ function Register() {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: any) => {
+  const uploadImage = () => {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append("file", state.identificationDocument);
+      axios
+        .post(app.FILE_UPLOAD_URL as string, formData)
+        .then((res) => {
+          resolve({ fileName: res.data.fileName });
+        })
+        .catch((error) => {
+          reject({
+            message: "Failed to upload the document, please try again later",
+          });
+        });
+    });
+  };
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(state);
-    if (state.password.length < 4) {
+
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const isValid = regex.test(state.password);
+
+    if (!isValid) {
       toastMessage(
         TOAST_MESSAGE_TYPES.ERROR,
-        "Password minimun characters must be 4."
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character."
       );
     } else if (state.password !== state.passwordConfirm) {
       toastMessage(TOAST_MESSAGE_TYPES.ERROR, "Passwords do not match.");
     } else {
       setIsSubmitting(true);
-      axios
-        .post(app.BACKEND_URL + "/users/register/", state)
+
+      uploadImage()
         .then((res) => {
-          setIsSubmitting(false);
-          //todo
-          navigate("/");
+          axios
+            .post(app.BACKEND_URL + "/users/register/", state)
+            .then((res) => {
+              setIsSubmitting(false);
+              toastMessage(
+                TOAST_MESSAGE_TYPES.SUCCESS,
+                res.data.responseMessage
+              );
+              // navigate("/");
+            })
+            .catch((error) => {
+              setState({ ...state, password: "", passwordConfirm: "" });
+              setIsSubmitting(false);
+              errorHandler(error);
+            });
         })
         .catch((error) => {
-          setState({ ...state, password: "", passwordConfirm: "" });
           setIsSubmitting(false);
-          errorHandler(error);
+          toastMessage(TOAST_MESSAGE_TYPES.ERROR, error.message);
         });
     }
   };
@@ -133,6 +165,7 @@ function Register() {
                   changeHandler={changeHandler}
                   setActiveStep={setActiveStep}
                   isSubmitting={isSubmitting}
+                  setState={setState}
                 />
               )}
               <hr />
