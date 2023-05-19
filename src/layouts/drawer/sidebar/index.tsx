@@ -14,8 +14,17 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../../reducers";
 import { USER_ROLE_ENUM } from "../../../interfaces";
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Confirmation from "../../../components/controllers/confirmation";
+
 function Sidebar() {
   const { role } = useSelector((state: RootState) => state.user);
+  const [showAlert, setShowAlert] = useState(false);
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    navigate("/logout");
+  };
   return (
     <div>
       <Toolbar style={{ backgroundColor: appColors.DARK_GREEN }}>
@@ -44,7 +53,7 @@ function Sidebar() {
       </List>
       <Divider />
       <List>
-        <ListItem disablePadding>
+        <ListItem disablePadding onClick={() => setShowAlert(true)}>
           <ListItemButton>
             <ListItemIcon>
               <Logout />
@@ -53,6 +62,12 @@ function Sidebar() {
           </ListItemButton>
         </ListItem>
       </List>
+      <Confirmation
+        callback={handleLogout}
+        setShowAlert={setShowAlert}
+        showAlert={showAlert}
+        title="Do you want to logout?"
+      />
     </div>
   );
 }
