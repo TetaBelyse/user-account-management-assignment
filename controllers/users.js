@@ -5,7 +5,12 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const nodemailer = require("nodemailer");
 
-const { returnEmailBody } = require("../helpers");
+const {
+  returnEmailBody,
+  verificationStatusEnum,
+  returnEmailVerifiedBody,
+  returnEmailNotVerifiedBody,
+} = require("../helpers");
 const Users = require("../models/users");
 
 const login = async (req, res) => {
@@ -109,6 +114,117 @@ const updateUserProfileImage = async (req, res) => {
     );
     return res.status(200).send({
       responseMessage: "Your profile image was updated successfull.",
+    });
+  } catch (error) {
+    return res.status(400).send({
+      responseMessage: error.message,
+    });
+  }
+};
+
+const approveUser = async (req, res) => {
+  try {
+    const { _id } = req.body;
+    if (!_id) {
+      return res.status(400).send({
+        responseMessage: "Please provide user details",
+      });
+    }
+
+    //const get user
+    const user = await Users.findOne({ _id });
+    if (!user) {
+      return res.status(400).send({
+        responseMessage:
+          "Can not find the user specified, please try again later with correct data.",
+      });
+    }
+
+    await Users.updateOne(
+      {
+        _id,
+      },
+      { verificationStatus: verificationStatusEnum.VERIFIED }
+    );
+
+    //send email
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.SMTP_EMAIL,
+      to: user.email,
+      subject: "Your account has been Verified",
+      html: returnEmailVerifiedBody(user.fName),
+    };
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).send({
+      responseMessage: "User verified successfull.",
+    });
+  } catch (error) {
+    return res.status(400).send({
+      responseMessage: error.message,
+    });
+  }
+};
+
+const disapproveUser = async (req, res) => {
+  try {
+    const { _id, verificationMessage } = req.body;
+    if (!(_id && verificationMessage !== undefined)) {
+      return res.status(400).send({
+        responseMessage: "Please provide user details",
+      });
+    }
+
+    //const get user
+    const user = await Users.findOne({ _id });
+    if (!user) {
+      return res.status(400).send({
+        responseMessage:
+          "Can not find the user specified, please try again later with correct data.",
+      });
+    }
+
+    await Users.updateOne(
+      {
+        _id,
+      },
+      {
+        verificationStatus: verificationStatusEnum.UNVERIFIED,
+        verificationMessage,
+      }
+    );
+
+    //send email
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: true,
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.SMTP_EMAIL,
+      to: user.email,
+      subject: "Your account has not been Verified",
+      html: returnEmailNotVerifiedBody(user.fName, verificationMessage),
+    };
+    await transporter.sendMail(mailOptions);
+
+    return res.status(200).send({
+      responseMessage: "User unverified successfull.",
     });
   } catch (error) {
     return res.status(400).send({
@@ -328,4 +444,6 @@ module.exports = {
   updateUserProfileImage,
   getUserStatus,
   adminGetAll,
+  approveUser,
+  disapproveUser,
 };

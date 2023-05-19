@@ -25,8 +25,23 @@ const returnEmailBody = (fName, emailVerificationToken) => {
   <p>Best Regards,<br>Teta Belyse</p>`;
 };
 
+const returnEmailVerifiedBody = (fName) => {
+  return `<b>Dear ${fName}</b>,<p>Your account has been verified successfully.</p>
+  <p><a href="${
+    process.env.FRONTEND_URL + "/login"
+  }">Click this link to log into your account</a></p>
+  <p>Best Regards,<br>Teta Belyse</p>`;
+};
+
+const returnEmailNotVerifiedBody = (fName, reason) => {
+  return `<b>Dear ${fName}</b>,<p>Your account is unverified because <b>${reason}</b>.</p>
+  <p>Best Regards,<br>Teta Belyse</p>`;
+};
+
 module.exports = {
   verificationStatusEnum,
   getRandomNumber,
   returnEmailBody,
+  returnEmailVerifiedBody,
+  returnEmailNotVerifiedBody,
 };
