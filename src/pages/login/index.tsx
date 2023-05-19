@@ -10,7 +10,7 @@ import { setUser } from "../../actions/user";
 import { Home } from "@mui/icons-material";
 import FullPageLoader from "../../components/full-page-loader";
 
-const initialState = { emailOrPhone: "", password: "" };
+const initialState = { email: "", password: "" };
 function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -99,10 +99,8 @@ function Login() {
                 disabled={isSubmitting}
                 type="text"
                 name="email"
-                value={state.emailOrPhone}
-                onChange={(e) =>
-                  setState({ ...state, emailOrPhone: e.target.value })
-                }
+                value={state.email}
+                onChange={(e) => setState({ ...state, email: e.target.value })}
                 required
               />
             </div>
