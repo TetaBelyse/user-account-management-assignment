@@ -1,7 +1,8 @@
 import React from "react";
 import { IRegisterState, REGISTER_STEPS_ENUM } from "..";
-import { MARITAL_STATUS_ENUM } from "../../../interfaces";
+import { MARITAL_STATUS_ENUM, TOAST_MESSAGE_TYPES } from "../../../interfaces";
 import countriesList from "../../../countries.json";
+import { toastMessage } from "../../../components/helpers";
 
 interface IStepProps {
   state: IRegisterState;
@@ -16,6 +17,41 @@ function Step1({
   isSubmitting,
 }: IStepProps) {
   const handleContinue = () => {
+    if (state.fName.trim() === "") {
+      toastMessage(TOAST_MESSAGE_TYPES.ERROR, "Firstname is required");
+      return;
+    }
+    if (state.lName.trim() === "") {
+      toastMessage(TOAST_MESSAGE_TYPES.ERROR, "LastName is required");
+      return;
+    }
+    if (state.email.trim() === "") {
+      toastMessage(TOAST_MESSAGE_TYPES.ERROR, "Email address is required");
+      return;
+    }
+    if (state.gender.trim() === "") {
+      toastMessage(TOAST_MESSAGE_TYPES.ERROR, "Gender address is required");
+      return;
+    }
+    if (state.maritalStatus.trim() === "") {
+      toastMessage(TOAST_MESSAGE_TYPES.ERROR, "Marital status  is required");
+      return;
+    }
+    if (state.age.trim() === "") {
+      toastMessage(TOAST_MESSAGE_TYPES.ERROR, "Your age is required");
+      return;
+    }
+    if (state.dob.trim() === "") {
+      toastMessage(TOAST_MESSAGE_TYPES.ERROR, "Your Date of birth is required");
+      return;
+    }
+    if (state.nationality.trim() === "") {
+      toastMessage(
+        TOAST_MESSAGE_TYPES.ERROR,
+        "Please choose your natinality is required"
+      );
+      return;
+    }
     setActiveStep(REGISTER_STEPS_ENUM.STEP2);
   };
   return (
@@ -94,7 +130,7 @@ function Step1({
               value={state.maritalStatus}
               name="maritalStatus"
             >
-              <option value="">choose gender</option>
+              <option value="">choose Marital status</option>
               <option value={MARITAL_STATUS_ENUM.SINGLE}>
                 {MARITAL_STATUS_ENUM.SINGLE}
               </option>
@@ -118,6 +154,7 @@ function Step1({
             <input
               type="number"
               required
+              placeholder="Enter your age"
               className="form-control"
               disabled={isSubmitting}
               onChange={changeHandler}

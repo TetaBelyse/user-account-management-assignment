@@ -12,6 +12,7 @@ import { CircularProgress } from "@mui/material";
 import { Home } from "@mui/icons-material";
 import Step1 from "./step_1";
 import Step2 from "./step_2";
+import FullPageLoader from "../../components/full-page-loader";
 
 export enum REGISTER_STEPS_ENUM {
   STEP1 = "STEP1",
@@ -190,6 +191,7 @@ function Register() {
           </Col>
         </Row>
       </div>
+      <FullPageLoader open={isSubmitting} />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import React from "react";
 import { IRegisterState, REGISTER_STEPS_ENUM } from "..";
-import { CircularProgress } from "@mui/material";
 
 interface IStepProps {
   state: IRegisterState;
@@ -80,16 +79,9 @@ function Step2({
         >
           Back
         </button>
-        {isSubmitting ? (
-          <button type="button" style={{ marginRight: 5 }} disabled={true}>
-            <CircularProgress size={25} />
-            &nbsp; Sign up...
-          </button>
-        ) : (
-          <button type="submit" style={{ marginLeft: 5 }}>
-            Sign up
-          </button>
-        )}
+        <button type="submit" style={{ marginLeft: 5 }}>
+          Sign up
+        </button>
       </div>
     </div>
   );
