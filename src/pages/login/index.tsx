@@ -127,7 +127,7 @@ function Login() {
             <>
               <form method="post" onSubmit={(e) => handleSubmit0(e)}>
                 <div className="form-group">
-                  <label>Email Or Phone</label>
+                  <label>Email address</label>
                   <input
                     className="form-control"
                     placeholder="Enter your email"
