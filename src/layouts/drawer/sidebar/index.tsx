@@ -15,7 +15,7 @@ import { RootState } from "../../../reducers";
 import { USER_ROLE_ENUM } from "../../../interfaces";
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Confirmation from "../../../components/controllers/confirmation";
 
 function Sidebar() {
@@ -29,7 +29,9 @@ function Sidebar() {
   return (
     <div>
       <Toolbar style={{ backgroundColor: appColors.DARK_GREEN }}>
-        <img src={require("../../../assets/logo.png")} />
+        <Link to="/">
+          <img src={require("../../../assets/logo.png")} />
+        </Link>
       </Toolbar>
       <Divider />
       <List>
