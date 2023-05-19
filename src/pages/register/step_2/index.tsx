@@ -24,6 +24,8 @@ function Step2({
           placeholder="Enter ID/Passport Number"
           value={state.identificationNumber}
           className="form-control"
+          onChange={changeHandler}
+          name="identificationNumber"
         />
       </div>
       <div className="form-group">
@@ -38,6 +40,8 @@ function Step2({
           className="form-control"
           value={state.password}
           placeholder="Enter password"
+          onChange={changeHandler}
+          name="password"
         />
       </div>
 
@@ -48,6 +52,8 @@ function Step2({
           className="form-control"
           placeholder="Confirm your password"
           value={state.passwordConfirm}
+          onChange={changeHandler}
+          name="passwordConfirm"
         />
       </div>
       <div
