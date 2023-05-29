@@ -15,10 +15,10 @@ REACT_APP_FILE_UPLOAD_URL = [URL for file upload]
 2. Start the server.  
 2.1. development server:  
  **npm run start**  
-NB: make sure that you have .env.dev file created and added required attributes required as specified above.  
+NB: make sure that you have .env.dev file created and added required attributes as specified above.  
 2.2. production server:  
  **npm run start:production**  
- NB: make sure that you have .env.production file created and added required attributes required as specified above.
+ NB: make sure that you have .env.production file created and added required attributes as specified above.
 
 # Features
 ## Account Management
