@@ -36,5 +36,5 @@ NB: make sure that you have .env.dev file created and added required attributes 
 To verify users profiles(approve or reject), you will have to login using admin user's credentials.  
 
 # Deployed URL  
-Visit [deployed version of this project]([https://user-account-management.netlify.app](https://user-account-management.netlify.app)) to check deployed version of this project.
+Visit [https://user-account-management.netlify.app](https://user-account-management.netlify.app) to check deployed version of this project.
 
