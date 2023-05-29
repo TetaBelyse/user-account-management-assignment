@@ -10,12 +10,13 @@ REACT_APP_FILE_URL = [URL for file storage]
 REACT_APP_FILE_UPLOAD_URL = [URL for file upload]  
 
 **After setting up the environment variables, follow these steps to run the project:**  
-1. Install the necessary dependencies by running the following command: **npm install**
+1. Install the necessary dependencies by running the following command:  
+**npm install**
 2. Start the server.  
-2.1. development server:
+2.1. development server:  
  **npm run start**  
-NB: make sure that you have .env.dev file created and added required attributes required as specified above.
-2.2. production server:
+NB: make sure that you have .env.dev file created and added required attributes required as specified above.  
+2.2. production server:  
  **npm run start:production**
 
 # Features
