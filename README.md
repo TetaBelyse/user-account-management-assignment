@@ -33,4 +33,4 @@ NB: make sure that you have .env.dev file created and added required attributes 
 4. Reset Link: Users can receive a reset link via email to initiate the password reset process.
 
 ## Account Verification
-To verify users details(approve or reject), you will have to login using admin user's credentials.
+To verify users profiles(approve or reject), you will have to login using admin user's credentials.
