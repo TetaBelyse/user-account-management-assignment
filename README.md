@@ -39,5 +39,5 @@ To verify users profiles(approve or reject), you will have to login using admin 
 # Creating admin user account  
 NB: This process is done manually.  
 Every user created in the database will be having an attribute called role. the default value is "user".  
-so, to create an admin user you will have to use signup api to create new user and then go to the database and then update the role field for that user created as "admin"
+so, to create an admin user you will have to use signup api to create new user and then go to the database and then update the role field for that user created as "**admin**" without the quotations.
 
